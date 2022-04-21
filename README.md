@@ -11,7 +11,7 @@ A collection of PowerShell scripts I've written:
 -
 
 #### grab_subnet_thresholds_from_all_hyper-v_cluster_nodes.ps1
-###### Script to grab all Windows Server 2012 Hyper-V clusters subnet thresholds.
+###### Script to grab all Server 2012 Hyper-V cluster nodes subnet thresholds.
 
 -
 
