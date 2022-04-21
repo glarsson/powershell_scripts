@@ -19,7 +19,7 @@ $csvPath = ".\Desktop\cluster_nodes_mpio_settings.csv"
 $myCredential = (Get-Credential)
 
 # VMM/cluster target
-$vmmServerTarget = "PUT_YOUR_VMM_TARGET_HOST_HERE"
+$vmmServerTarget = "PUT_YOUR_VMM_HOST_HERE"
 
 # grab all clusters
 $clusters = (Get-SCVMHostCluster -VMMServer $vmmServerTarget)
