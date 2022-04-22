@@ -39,25 +39,25 @@ foreach ($c in $clusters.Name) {
   foreach ($n in $nodes.Name) {
     # grab all matching events from node
     $getEvents = (Get-WinEvent -ComputerName $n -FilterHashtable @{
-      LogName      = $eventLogName
-      StartTime    = $starttime
-      EndTime      = $endtime
-      ProviderName = $eventLogSource
-      ID           = $eventId
-      Level        = $logLevel
-	} -ErrorAction SilentlyContinue | Select-Object -Property MachineName, TimeCreated, Message, Id)
+        LogName      = $eventLogName
+        StartTime    = $starttime
+        EndTime      = $endtime
+        ProviderName = $eventLogSource
+        ID           = $eventId
+        Level        = $logLevel
+      } -ErrorAction SilentlyContinue | Select-Object -Property MachineName, TimeCreated, Message, Id)
 
-	foreach ($event in $getEvents) {
-	  # populate reportObject for each event found
+    foreach ($event in $getEvents) {
+      # populate reportObject for each event found
       $reportObject = New-Object psobject -Property @{
         ClusterName = $c
         NodeName    = $n
         TimeCreated = $event.TimeCreated
-	    Id          = $event.Id
-	    Message     = $event.Message
+        Id          = $event.Id
+        Message     = $event.Message
       }
-	  # append each node report to csv
-	  $reportObject | Export-Csv -Append -NoTypeInformation -Path $csvPath
-	}
+      # append each node report to csv
+      $reportObject | Export-Csv -Append -NoTypeInformation -Path $csvPath
+    }
   }
 }

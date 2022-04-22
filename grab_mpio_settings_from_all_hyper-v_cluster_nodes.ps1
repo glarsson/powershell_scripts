@@ -29,28 +29,28 @@ foreach ($c in $clusters.Name) {
   $nodes = (Get-ClusterNode -Cluster $c)
 
   foreach ($n in $nodes.Name) {
-  # grab mpio settings from each node
-  $mpioSettings = (Invoke-Command -ComputerName $n -Credential $myCredential -ScriptBlock { Get-MPIOSetting | Out-String })
+    # grab mpio settings from each node
+    $mpioSettings = (Invoke-Command -ComputerName $n -Credential $myCredential -ScriptBlock { Get-MPIOSetting | Out-String })
   
-  # unfortunately the output from Get-MPIOSetting does not produce accessible attributes, so we need to create them by splitting lines and rows
-  $mpioSettingsSplitArray = @{}
-  $mpioSettingsSplitArray = $mpioSettings -split '\r\n'
+    # unfortunately the output from Get-MPIOSetting does not produce accessible attributes, so we need to create them by splitting lines and rows
+    $mpioSettingsSplitArray = @{}
+    $mpioSettingsSplitArray = $mpioSettings -split '\r\n'
 
-  # populate reportObject with the data
-  $reportObject                 = New-Object psobject -Property @{
-    ClusterName                 = $c
-    NodeName					= $n
-    PathVerificationState       = $mpioSettingsSplitArray[2].Split(':')[1].Trim()
-    PathVerificationPeriod      = $mpioSettingsSplitArray[3].Split(':')[1].Trim()
-    PDORemovePeriod             = $mpioSettingsSplitArray[4].Split(':')[1].Trim()
-    RetryCount                  = $mpioSettingsSplitArray[5].Split(':')[1].Trim()
-    RetryInterval               = $mpioSettingsSplitArray[6].Split(':')[1].Trim()
-    UseCustomPathRecoveryTime   = $mpioSettingsSplitArray[7].Split(':')[1].Trim()
-    CustomPathRecoveryTime      = $mpioSettingsSplitArray[8].Split(':')[1].Trim()
-    DiskTimeoutValue            = $mpioSettingsSplitArray[9].Split(':')[1].Trim()
-  }
+    # populate reportObject with the data
+    $reportObject = New-Object psobject -Property @{
+      ClusterName               = $c
+      NodeName                  = $n
+      PathVerificationState     = $mpioSettingsSplitArray[2].Split(':')[1].Trim()
+      PathVerificationPeriod    = $mpioSettingsSplitArray[3].Split(':')[1].Trim()
+      PDORemovePeriod           = $mpioSettingsSplitArray[4].Split(':')[1].Trim()
+      RetryCount                = $mpioSettingsSplitArray[5].Split(':')[1].Trim()
+      RetryInterval             = $mpioSettingsSplitArray[6].Split(':')[1].Trim()
+      UseCustomPathRecoveryTime = $mpioSettingsSplitArray[7].Split(':')[1].Trim()
+      CustomPathRecoveryTime    = $mpioSettingsSplitArray[8].Split(':')[1].Trim()
+      DiskTimeoutValue          = $mpioSettingsSplitArray[9].Split(':')[1].Trim()
+    }
 
-  # append each cluster report to csv
-  $reportObject | Export-Csv -Append -NoTypeInformation -Path $csvPath
+    # append each cluster report to csv
+    $reportObject | Export-Csv -Append -NoTypeInformation -Path $csvPath
   }
 }

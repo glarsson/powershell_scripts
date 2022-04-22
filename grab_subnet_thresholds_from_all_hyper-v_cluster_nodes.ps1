@@ -14,13 +14,13 @@ foreach ($c in $clusters.Name) {
   # grab subnet parameters from each cluster
   $clusterSubnetParameters = (Get-Cluster $c | Select-Object *subnet*)
   # populate reportObject with the data
-  $reportObject                 = New-Object psobject -Property @{
-    ClusterName                 = $c
-    CrossSubnetDelay            = $clusterSubnetParameters.CrossSubnetDelay
-    CrossSubnetThreshold        = $clusterSubnetParameters.CrossSubnetThreshold
-    PlumbAllCrossSubnetRoutes   = $clusterSubnetParameters.PlumbAllCrossSubnetRoutes
-    SameSubnetDelay             = $clusterSubnetParameters.SameSubnetDelay
-	SameSubnetThreshold         = $clusterSubnetParameters.SameSubnetThreshold        
+  $reportObject = New-Object psobject -Property @{
+    ClusterName               = $c
+    CrossSubnetDelay          = $clusterSubnetParameters.CrossSubnetDelay
+    CrossSubnetThreshold      = $clusterSubnetParameters.CrossSubnetThreshold
+    PlumbAllCrossSubnetRoutes = $clusterSubnetParameters.PlumbAllCrossSubnetRoutes
+    SameSubnetDelay           = $clusterSubnetParameters.SameSubnetDelay
+    SameSubnetThreshold       = $clusterSubnetParameters.SameSubnetThreshold        
   }
   # append each cluster report to csv
   $reportObject | Export-Csv -Append -NoTypeInformation -Path $csvPath
